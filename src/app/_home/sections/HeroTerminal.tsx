@@ -125,7 +125,7 @@ export function HeroShowcase() {
     return clearTimer
   }, [active, reduced, clearTimer, jumpTo])
 
-  const scene = SCENES[active]
+  const scene = SCENES[active]!
 
   return (
     <div className="flex flex-col gap-3">
