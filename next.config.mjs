@@ -60,7 +60,7 @@ const config = {
     // `versionedAsset()` appends `?v=<ASSET_VERSION>` to /public media for
     // cache-busting, so allow both the versioned and unversioned forms.
     localPatterns: [
-      { pathname: "/**", search: `v=${ASSET_VERSION}` },
+      { pathname: "/**", search: `?v=${ASSET_VERSION}` },
       { pathname: "/**", search: "" },
     ],
   },

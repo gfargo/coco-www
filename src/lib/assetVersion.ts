@@ -13,7 +13,7 @@
  * the coco repo) and copy fresh assets in. The value is opaque; a date
  * is just an easy, monotonic choice.
  */
-export const ASSET_VERSION = "2026-06-26"
+export const ASSET_VERSION = "2026-07-02"
 
 /**
  * Append the asset version to a local ("/"-rooted) media URL. External
