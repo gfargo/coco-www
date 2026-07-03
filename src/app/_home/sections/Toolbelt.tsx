@@ -188,7 +188,7 @@ export const ToolbeltSection = () => {
       <div className="container">
         <SectionHeader
           prompt="~/coco $ --help"
-          title="Every command, a sharp tool"
+          title="Every command, intentionally crafted"
           subtitle="Each command solves a real problem on its own. Pick the one you need, or use them all."
         />
 
