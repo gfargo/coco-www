@@ -32,10 +32,26 @@ interface Scene {
 
 const SCENES: Scene[] = [
   {
+    label: "ui",
+    src: "/screenshots/hero-ui.gif",
+    kind: "gif",
+    alt: "coco ui — browsing history, opening diffs, and chord-switching views",
+    width: 1276,
+    height: 590,
+  },
+  {
     label: "commit",
     src: "/screenshots/hero-commit.gif",
     kind: "gif",
     alt: "coco commit — AI drafts a conventional commit message from staged changes",
+    width: 1276,
+    height: 590,
+  },
+  {
+    label: "workspace",
+    src: "/screenshots/hero-workspace.gif",
+    kind: "gif",
+    alt: "coco workspace — multi-repo browser, selecting a repo and opening its TUI",
     width: 1276,
     height: 590,
   },
@@ -48,26 +64,10 @@ const SCENES: Scene[] = [
     height: 590,
   },
   {
-    label: "ui",
-    src: "/screenshots/hero-ui.gif",
-    kind: "gif",
-    alt: "coco ui — browsing history, opening diffs, and chord-switching views",
-    width: 1276,
-    height: 590,
-  },
-  {
     label: "changelog",
     src: "/screenshots/hero-changelog.gif",
     kind: "gif",
     alt: "coco changelog — generating release notes from branch history",
-    width: 1276,
-    height: 590,
-  },
-  {
-    label: "workspace",
-    src: "/screenshots/hero-workspace.gif",
-    kind: "gif",
-    alt: "coco workspace — multi-repo browser, selecting a repo and opening its TUI",
     width: 1276,
     height: 590,
   },
