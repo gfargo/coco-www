@@ -6,14 +6,6 @@ import { CopyCommand } from "@/components/CopyCommand"
 
 import { HeroShowcase } from "./HeroTerminal"
 
-/* Breadth at a glance — real numbers. */
-const stats: { value: string; label: string }[] = [
-  { value: "9", label: "commands" },
-  { value: "16", label: "views" },
-  { value: "7", label: "AI providers" },
-  { value: "128", label: "themes" },
-]
-
 /* Git platform icons — inline SVGs sized to match the badge text. */
 function GitHubMark({ className }: { className?: string }) {
   return (
@@ -105,23 +97,9 @@ export const HeroSection = () => {
 
             {/* Install CTA */}
             <CopyCommand command="npx git-coco@latest init" />
-
-            {/* Stats rail */}
-            <dl className="flex flex-wrap gap-x-5 gap-y-3 border-t border-white/[0.06] pt-5">
-              {stats.map((stat) => (
-                <div key={stat.label} className="flex flex-col">
-                  <dt className="order-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">
-                    {stat.label}
-                  </dt>
-                  <dd className="order-1 font-mono text-lg font-bold text-terminal-green">
-                    {stat.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
-          {/* Right — real GIF showcase */}
+          {/* Right — GIF showcase */}
           <div className="-order-1 w-full lg:order-1">
             <HeroShowcase />
           </div>
