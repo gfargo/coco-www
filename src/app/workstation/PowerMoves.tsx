@@ -4,6 +4,7 @@ import {
   CommandIcon,
   GitCompareIcon,
   ListChecksIcon,
+  SearchCodeIcon,
   type LucideIcon,
 } from "lucide-react"
 
@@ -43,6 +44,14 @@ const MOVES: PowerMove[] = [
     keys: ["A", "+"],
     src: "/screenshots/stage-pathspec.png",
   },
+  {
+    icon: SearchCodeIcon,
+    title: "Search by what changed, not just when",
+    description:
+      "Filter history by diff content, not just message or author: /S:token finds commits that added or removed a string (git log -S), /G:regex finds commits whose patch matches a pattern (git log -G). Same live-filter UX as path:/author:.",
+    keys: ["/", "S:"],
+    src: "/screenshots/demo-pickaxe-search.png",
+  },
 ]
 
 function Frame({ title, src }: { title: string; src: string }) {
@@ -73,11 +82,12 @@ function Frame({ title, src }: { title: string; src: string }) {
 /**
  * Power moves — the smaller, high-leverage workstation gestures that
  * don't warrant a full numbered Key Workflows row but reward discovery:
- * cross-ref compare, the which-key chord menu, and bulk staging.
+ * cross-ref compare, the which-key chord menu, bulk staging, and
+ * content-based history search.
  */
 export function PowerMoves() {
   return (
-    <div className="mt-4 grid gap-8 lg:grid-cols-3">
+    <div className="mt-4 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
       {MOVES.map((move) => {
         const Icon = move.icon
         return (

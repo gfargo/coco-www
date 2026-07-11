@@ -3,6 +3,7 @@
 import { MediaFrame } from "@/components/MediaFrame"
 import {
   ArchiveIcon,
+  CheckSquareIcon,
   GitBranchIcon,
   GitCommitIcon,
   GitMergeIcon,
@@ -56,8 +57,8 @@ const WORKFLOWS: WorkflowRow[] = [
     icon: GitBranchIcon,
     title: "Worktree-aware checkout",
     description:
-      "Check out a branch that's already checked out in another worktree and coco doesn't dead-end on git's error — it names the worktree holding it and offers a way forward: y to switch into that worktree (it opens as a nested frame), r to remove it and check out here, or x to remove it and delete the branch. Dirty worktrees are guarded.",
-    keys: ["↵", "y", "r", "x"],
+      "Check out a branch that's already checked out in another worktree and coco doesn't dead-end on git's error — it names the worktree holding it and offers a way forward: s to switch into that worktree (it opens as a nested frame), r to remove it and check out here, or x to remove it and delete the branch. Dirty worktrees are guarded.",
+    keys: ["↵", "s", "r", "x"],
     media: { src: "/screenshots/demo-checkout-worktree-conflict.gif", animated: true },
   },
   {
@@ -86,11 +87,19 @@ const WORKFLOWS: WorkflowRow[] = [
   },
   {
     icon: RotateCcwIcon,
-    title: "History mutations",
+    title: "History mutations, with a real undo button",
     description:
-      "Revert, reset, rebase, and cherry-pick from the history view. Cursor to any commit and apply the operation with a single key — with reflog one keystroke away if you need to walk it back.",
-    keys: ["g", "h"],
+      "Revert, reset, rebase, and cherry-pick from the history view. Cursor to any commit and apply the operation with a single key. Made a mistake anyway? z is lazygit's undo safety blanket, reflog-powered: it reads what actually just happened, shows you the exact inverse it's about to run, and reverts it on confirm — no manual reflog archaeology required.",
+    keys: ["g", "h", "z"],
     media: { src: "/screenshots/view-reflog.png" },
+  },
+  {
+    icon: CheckSquareIcon,
+    title: "Batch it: mark, range-select, one confirm",
+    description:
+      "Stop deleting five stale branches five separate times. x marks a branch or stash and auto-advances to the next; v anchors a range extended with j/k. Delete the marked branches, drop the marked stashes, or cherry-pick a whole commit span as one git cherry-pick oldest^..newest — the confirm panel names every item so nothing runs blind.",
+    keys: ["x", "v", "D"],
+    media: { src: "/screenshots/demo-multiselect-batch.gif", animated: true },
   },
   {
     icon: GitMergeIcon,
