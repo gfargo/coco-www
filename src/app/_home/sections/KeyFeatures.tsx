@@ -6,13 +6,14 @@ import { SectionHeader } from "@/components/SectionHeader"
 import { TerminalAtmosphere } from "@/components/TerminalAtmosphere"
 import { cn } from "@/lib/utils"
 import {
+    BotIcon,
     GitForkIcon,
     MonitorIcon,
     RouteIcon,
     ServerIcon,
     ShieldCheckIcon,
     SparklesIcon,
-    ZapIcon,
+    ZapIcon
 } from "lucide-react"
 import { type LucideIcon } from "lucide-react"
 
@@ -38,6 +39,14 @@ const features: Feature[] = [
       "Each command solves a specific problem: intelligent commits, automated changelogs, code recaps for standups, AI code reviews, and commit splitting for clean history.",
     layout: "wide",
     visual: () => <CommandsVisual />,
+  },
+  {
+    icon: BotIcon,
+    title: "Agent CLI & Local MCP",
+    description:
+      "Use commit drafting, review, changelog, and recap as strict protocol-v1 JSON operations or four discoverable MCP tools — root-bound, generation-only, and never a generic shell.",
+    layout: "default",
+    visual: () => <AgentToolsVisual />,
   },
   {
     icon: MonitorIcon,
@@ -115,6 +124,25 @@ function CommandsVisual() {
           {cmd.name}
         </span>
       ))}
+    </div>
+  )
+}
+
+function AgentToolsVisual() {
+  return (
+    <div className="space-y-1.5 font-mono text-[10px] sm:text-[11px]">
+      <div className="flex items-center justify-between rounded border border-border bg-background/50 px-2.5 py-1.5">
+        <span className="text-foreground/80">agent --input request.json</span>
+        <span className="text-terminal-green">v1</span>
+      </div>
+      <div className="flex items-center justify-between rounded border border-border bg-background/50 px-2.5 py-1.5">
+        <span className="text-foreground/80">mcp --repo .</span>
+        <span className="text-terminal-green-bright">4 tools</span>
+      </div>
+      <div className="flex items-center gap-1.5 pt-1 text-muted-foreground">
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-terminal-green" />
+        schemas · roots · cancellation
+      </div>
     </div>
   )
 }

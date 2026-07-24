@@ -3,7 +3,7 @@ export const siteConfig = {
   url: "https://coco.griffen.codes",
   ogImage: "https://coco.griffen.codes/og-image.png",
   description:
-    "A suite of AI-powered Git tools — smart commits, automated changelogs, code reviews, commit splitting, and recaps — plus a keyboard-driven terminal workstation that brings them all together. PR/MR and issue triage works across GitHub, GitHub Enterprise, and GitLab. Supports OpenAI, Anthropic, Gemini, Mistral, Azure OpenAI, AWS Bedrock, and Ollama for local/private operation.",
+    "A suite of AI-powered Git tools — smart commits, automated changelogs, code reviews, commit splitting, and recaps — exposed to developers through a keyboard-driven terminal workstation, a versioned agent CLI, and four local read-only MCP tools. PR/MR and issue triage works across GitHub, GitHub Enterprise, GitLab, and Bitbucket Cloud. Supports OpenAI, Anthropic, Gemini, Mistral, Azure OpenAI, AWS Bedrock, and Ollama for local/private operation.",
   keywords: [
     "git",
     "cli tool",
@@ -14,6 +14,11 @@ export const siteConfig = {
     "terminal git workstation",
     "developer tools",
     "AI assistant",
+    "Model Context Protocol",
+    "MCP server for Git",
+    "coding agent CLI",
+    "AI agent tools",
+    "structured Git automation",
     "conventional commits",
     "git automation",
     "terminal tools",
@@ -52,6 +57,7 @@ export const siteConfig = {
     discussions: "https://github.com/gfargo/coco/discussions",
     issues: "https://github.com/gfargo/coco/issues/new",
     wiki: "https://github.com/gfargo/coco/wiki",
+    agentMcpWiki: "https://github.com/gfargo/coco/wiki/Agent-CLI-and-MCP",
     ollamaWiki: "https://github.com/gfargo/coco/wiki/Using-Ollama",
     commitPrompt:
       "https://github.com/gfargo/coco/blob/main/src/lib/langchain/prompts/commitDefault.ts#L3-L15",
