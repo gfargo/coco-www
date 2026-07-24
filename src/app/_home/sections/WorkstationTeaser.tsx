@@ -63,7 +63,7 @@ const features = [
 
 export function WorkstationTeaser() {
   return (
-    <Section id="workstation-teaser" className="relative overflow-hidden">
+    <Section id="workstation-teaser" className="relative scroll-mt-24 overflow-hidden">
       <TerminalAtmosphere variant="section" />
 
       <div className="container relative z-10">

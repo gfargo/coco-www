@@ -3,7 +3,6 @@
 import { Section } from "@/components/Section"
 import { SectionHeader } from "@/components/SectionHeader"
 import { MediaFrame } from "@/components/MediaFrame"
-import { cn } from "@/lib/utils"
 import {
     CheckIcon,
     GitPullRequestIcon,
@@ -37,7 +36,12 @@ const forges: Forge[] = [
   {
     name: "GitLab",
     cli: "glab",
-    note: "Requires glab installed and authenticated.",
+    note: "Uses glab for merge requests and issues.",
+  },
+  {
+    name: "Bitbucket Cloud",
+    cli: "API",
+    note: "Uses the REST API — no extra CLI required.",
   },
 ]
 
@@ -58,13 +62,13 @@ const capabilities: Capability[] = [
     icon: CircleDotIcon,
     title: "Issues",
     description:
-      "coco issues lists, filters, and acts on issues across both forges — same flags, same --json output.",
+      "coco issues lists, filters, and acts on issues across supported forges — same flags, same --json output.",
   },
   {
     icon: LayoutDashboardIcon,
     title: "Triage workstation",
     description:
-      "The full coco ui workstation — PR/issue triage, inspectors, and every per-row action — drives gh or glab transparently.",
+      "The full coco ui workstation — PR/issue triage, inspectors, and every per-row action — dispatches through the detected forge adapter.",
   },
   {
     icon: SparklesIcon,
@@ -133,12 +137,12 @@ function CapabilityCard({ capability }: { capability: Capability }) {
 
 export const ForgeSupportSection = () => {
   return (
-    <Section id="forges">
+    <Section id="forges" className="scroll-mt-24">
       <div className="container">
         <SectionHeader
           prompt="~/coco $ prs"
-          title="Works with GitHub and GitLab"
-          subtitle="coco detects your forge from the git remote and drives the matching CLI — gh for GitHub and GitHub Enterprise, glab for GitLab. The same commands and workstation work across both."
+          title="One workflow across every forge"
+          subtitle="coco detects your remote and dispatches through one forge adapter — gh for GitHub and GitHub Enterprise, glab for GitLab, and the REST API for Bitbucket Cloud. Commands and workstation actions stay consistent."
         />
 
         <div className="mx-auto grid max-w-6xl gap-4 sm:gap-5 lg:grid-cols-3">
@@ -148,8 +152,8 @@ export const ForgeSupportSection = () => {
               Forge detection
             </h3>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-              No flags to set. coco reads your remote and shells out to the
-              right tool.
+              No flags to set. coco reads your remote and selects the
+              right CLI or API.
             </p>
             <ForgeMatrix />
           </div>
@@ -188,7 +192,7 @@ export const ForgeSupportSection = () => {
           <p className="mt-3 text-center text-xs text-muted-foreground">
             GitLab merge-request triage in{" "}
             <code className="font-mono text-terminal-green">coco ui</code> — draft, pipeline, and
-            approval state with a live inspector. The same view, the same keys, on GitHub.
+            approval state with a live inspector. The same workflow and keys carry across GitHub and Bitbucket Cloud.
           </p>
         </div>
       </div>

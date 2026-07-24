@@ -184,7 +184,7 @@ export const ToolbeltSection = () => {
   }
 
   return (
-    <Section id="toolbelt">
+    <Section id="toolbelt" className="scroll-mt-24">
       <div className="container">
         <SectionHeader
           prompt="~/coco $ --help"
@@ -220,7 +220,7 @@ export const ToolbeltSection = () => {
         </Tabs>
 
         {/* Dynamic model routing note */}
-        <div className="mt-10 rounded-lg border border-border bg-bg-elevated p-6">
+        <div id="model-routing" className="mt-10 scroll-mt-24 rounded-lg border border-border bg-bg-elevated p-6">
           <h4 className="mb-2 font-mono text-sm font-semibold text-foreground">
             Dynamic model routing
           </h4>

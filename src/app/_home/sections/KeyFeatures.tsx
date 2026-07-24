@@ -4,8 +4,10 @@ import { MediaFrame } from "@/components/MediaFrame"
 import { Section } from "@/components/Section"
 import { SectionHeader } from "@/components/SectionHeader"
 import { TerminalAtmosphere } from "@/components/TerminalAtmosphere"
+import { TrackedLink } from "@/components/TrackedLink"
 import { cn } from "@/lib/utils"
 import {
+    ArrowDownRightIcon,
     BotIcon,
     GitForkIcon,
     MonitorIcon,
@@ -29,6 +31,9 @@ interface Feature {
   layout: "default" | "wide" | "tall"
   /** Small terminal-style visual element rendered inside the card */
   visual: () => React.ReactNode
+  /** Optional in-page destination when a deeper homepage section exists */
+  href?: `#${string}`
+  jumpLabel?: string
 }
 
 const features: Feature[] = [
@@ -39,6 +44,8 @@ const features: Feature[] = [
       "Each command solves a specific problem: intelligent commits, automated changelogs, code recaps for standups, AI code reviews, and commit splitting for clean history.",
     layout: "wide",
     visual: () => <CommandsVisual />,
+    href: "#toolbelt",
+    jumpLabel: "commands",
   },
   {
     icon: BotIcon,
@@ -47,6 +54,8 @@ const features: Feature[] = [
       "Use commit drafting, review, changelog, and recap as strict protocol-v1 JSON operations or four discoverable MCP tools — root-bound, generation-only, and never a generic shell.",
     layout: "default",
     visual: () => <AgentToolsVisual />,
+    href: "#agents",
+    jumpLabel: "agent tools",
   },
   {
     icon: MonitorIcon,
@@ -55,6 +64,8 @@ const features: Feature[] = [
       "A keyboard-driven Git workstation with 16 views — including a full stash workflow, tactile hunk staging, conflict resolution, reflog recovery, bisect, and recursive submodule drill-in — that works at any terminal width and brings every tool together in one surface.",
     layout: "tall",
     visual: () => <WorkstationVisual />,
+    href: "#workstation-teaser",
+    jumpLabel: "workstation",
   },
   {
     icon: RouteIcon,
@@ -63,6 +74,8 @@ const features: Feature[] = [
       "Task-aware model selection picks the right model for each job. Fast models for commits, thorough models for reviews.",
     layout: "default",
     visual: () => <RoutingVisual />,
+    href: "#model-routing",
+    jumpLabel: "model routing",
   },
   {
     icon: ServerIcon,
@@ -71,14 +84,18 @@ const features: Feature[] = [
       "Seven providers: OpenAI, Anthropic, Gemini, Mistral, Azure OpenAI, AWS Bedrock, and Ollama. Run fully local for complete privacy and zero API costs. coco itself collects no telemetry, and any usage stats it keeps stay local on your machine.",
     layout: "default",
     visual: () => <ProvidersVisual />,
+    href: "#model-routing",
+    jumpLabel: "providers",
   },
   {
     icon: GitForkIcon,
-    title: "Multi-forge (GitHub + GitLab)",
+    title: "Multi-forge Git workflows",
     description:
-      "PRs, issues, and the triage workstation work across GitHub, GitHub Enterprise, and GitLab. coco detects your forge and drives gh or glab — same commands, same TUI.",
+      "PRs, issues, and the triage workstation work across GitHub, GitHub Enterprise, GitLab, and Bitbucket Cloud. coco detects your forge and drives the matching CLI or API behind one consistent workflow.",
     layout: "default",
     visual: () => <ForgesVisual />,
+    href: "#forges",
+    jumpLabel: "forge support",
   },
   {
     icon: ShieldCheckIcon,
@@ -243,6 +260,7 @@ function ForgesVisual() {
     { name: "GitHub", cli: "gh" },
     { name: "GitHub Enterprise", cli: "gh" },
     { name: "GitLab", cli: "glab" },
+    { name: "Bitbucket Cloud", cli: "API" },
   ]
   return (
     <div className="space-y-1.5">
@@ -313,24 +331,33 @@ function PerformanceVisual() {
 
 function FeatureCard({ feature }: { feature: Feature }) {
   const Icon = feature.icon
-  return (
-    <div
-      className={cn(
-        "group relative flex flex-col overflow-hidden rounded-lg border border-border bg-bg-elevated/60 p-6 sm:p-8 transition-all duration-300",
-        "hover:border-terminal-green-dim hover:bg-bg-elevated/80",
-        "hover:shadow-[0_0_24px_-6px_hsl(154_40%_53%_/_0.15)]",
-        feature.layout === "wide" && "lg:col-span-2",
-        feature.layout === "tall" && "lg:row-span-2"
-      )}
-    >
+  const className = cn(
+    "group relative flex flex-col overflow-hidden rounded-lg border border-border bg-bg-elevated/60 p-6 sm:p-8 transition-all duration-300",
+    feature.href && [
+      "cursor-pointer hover:border-terminal-green-dim hover:bg-bg-elevated/80",
+      "hover:shadow-[0_0_24px_-6px_hsl(154_40%_53%_/_0.15)]",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terminal-green focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    ],
+    feature.layout === "wide" && "lg:col-span-2",
+    feature.layout === "tall" && "lg:row-span-2"
+  )
+  const content = (
+    <>
       {/* Subtle corner glow on hover */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-terminal-green/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
       />
 
+      {feature.href && (
+        <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded border border-terminal-green-dim/30 bg-terminal-green/5 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-terminal-green-dim transition-colors group-hover:border-terminal-green-dim group-hover:text-terminal-green sm:right-5 sm:top-5">
+          {feature.jumpLabel}
+          <ArrowDownRightIcon className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+        </span>
+      )}
+
       {/* Icon + title row */}
-      <div className="mb-4 flex items-center gap-3">
+      <div className={cn("mb-4 flex items-center gap-3", feature.href && "pr-20 sm:pr-24")}>
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-terminal-green-dim/40 bg-terminal-green/10 transition-colors group-hover:border-terminal-green-dim group-hover:bg-terminal-green/15">
           <Icon className="h-5 w-5 text-terminal-green" />
         </div>
@@ -348,8 +375,23 @@ function FeatureCard({ feature }: { feature: Feature }) {
       <div className="mt-auto">
         <feature.visual />
       </div>
-    </div>
+    </>
   )
+
+  if (feature.href) {
+    return (
+      <TrackedLink
+        href={feature.href}
+        eventName="Feature Card Jump"
+        aria-label={`${feature.title}: jump to ${feature.jumpLabel}`}
+        className={className}
+      >
+        {content}
+      </TrackedLink>
+    )
+  }
+
+  return <div className={className}>{content}</div>
 }
 
 /* ------------------------------------------------------------------ */
@@ -364,7 +406,7 @@ export const KeyFeaturesSection = () => {
       <div className="container relative z-10">
         <SectionHeader
           title="Key Features"
-          subtitle="Powerful capabilities that adapt to your workflow and coding standards"
+          subtitle="Start with the map, then jump into the workflows that matter to you"
           prompt="~/coco $ features"
         />
 
