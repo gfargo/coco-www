@@ -152,7 +152,7 @@ function ProtocolTerminal() {
 
 export function AgentMcpSection() {
   return (
-    <Section id="agents" variant="gradient" className="overflow-hidden">
+    <Section id="agents" variant="gradient" className="scroll-mt-24 overflow-hidden">
       <TerminalAtmosphere variant="section" />
 
       <div className="container relative z-10">

@@ -17,10 +17,10 @@ export default function HomePage() {
       <Header />
       <main className="w-full flex-1 pb-2 overflow-hidden">
         <HeroSection />
+        <KeyFeaturesSection />
         <ToolbeltSection />
         <AgentMcpSection />
         <WorkstationTeaser />
-        <KeyFeaturesSection />
         <ForgeSupportSection />
         <InstallSection />
         <DocumentationSection />
