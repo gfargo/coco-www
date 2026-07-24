@@ -1,6 +1,7 @@
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 
+import { AgentMcpSection } from "./_home/sections/AgentMcp"
 import { CommunitySection } from "./_home/sections/Community"
 import { HeroSection } from "./_home/sections/Hero"
 import { KeyFeaturesSection } from "./_home/sections/KeyFeatures"
@@ -17,6 +18,7 @@ export default function HomePage() {
       <main className="w-full flex-1 pb-2 overflow-hidden">
         <HeroSection />
         <ToolbeltSection />
+        <AgentMcpSection />
         <WorkstationTeaser />
         <KeyFeaturesSection />
         <ForgeSupportSection />
