@@ -231,13 +231,16 @@ function TerminalChrome({ label }: { label: string }) {
   )
 }
 
-/** Blinking block caret, matching the terminal type across the site. */
+/** Blinking block caret, matching the terminal type across the site.
+ *  Only blinks when the nearest `group` ancestor is hovered, keeping
+ *  the page calm when many terminals are visible simultaneously.
+ */
 function Caret({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[0.12em] bg-terminal-green/80 motion-safe:animate-cursor-blink",
+        "ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[0.12em] bg-terminal-green/80 opacity-0 transition-opacity group-hover:opacity-100 group-hover:motion-safe:animate-cursor-blink",
         className
       )}
     />
@@ -410,7 +413,7 @@ function ConnectedTerminal() {
   return (
     <div
       ref={ref}
-      className="agent-scan relative overflow-hidden rounded-xl border border-border/80 bg-[hsl(150_24%_5%)] shadow-2xl shadow-black/30 ring-1 ring-terminal-green/10"
+      className="agent-scan group relative overflow-hidden rounded-xl border border-border/80 bg-[hsl(150_24%_5%)] shadow-2xl shadow-black/30 ring-1 ring-terminal-green/10"
     >
       <TerminalChrome label="coco mcp" />
 
