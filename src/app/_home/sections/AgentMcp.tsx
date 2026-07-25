@@ -490,7 +490,7 @@ export function AgentMcpSection() {
           blurb="One entry, no repository path. coco reads the workspace folder your editor is already reporting, so the same config works in every project you open."
           className="mt-14"
         >
-          <div className="grid items-start gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="grid items-start gap-5 pl-10 lg:grid-cols-[1.15fr_0.85fr]">
             <ClientConfig />
             <ConnectedTerminal />
           </div>
