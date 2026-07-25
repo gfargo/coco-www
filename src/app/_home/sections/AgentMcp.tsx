@@ -304,14 +304,14 @@ function PathChooser() {
           key={id}
           delay={i * 90}
           className={cn(
-            "agent-sweep group relative flex flex-col overflow-hidden rounded-xl border bg-bg-elevated/55 p-5 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 sm:p-6",
+            "agent-sweep group relative flex flex-col rounded-xl border bg-bg-elevated/55 p-5 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 sm:p-6",
             recommended
-              ? "border-terminal-green-dim/60 shadow-[0_0_40px_-24px_hsl(154_40%_53%_/_0.55)] hover:shadow-[0_0_50px_-18px_hsl(154_40%_53%_/_0.6)]"
+              ? "border-terminal-green-dim/60 pt-8 shadow-[0_0_40px_-24px_hsl(154_40%_53%_/_0.55)] hover:shadow-[0_0_50px_-18px_hsl(154_40%_53%_/_0.6)]"
               : "border-border hover:border-terminal-green-dim/50"
           )}
         >
           {recommended && (
-            <span className="absolute -top-2.5 left-5 z-[2] rounded bg-terminal-green px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[hsl(150_22%_10%)]">
+            <span className="absolute top-2.5 left-5 z-[2] rounded bg-terminal-green px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[hsl(150_22%_10%)]">
               most people
             </span>
           )}
