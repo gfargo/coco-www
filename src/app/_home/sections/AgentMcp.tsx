@@ -271,21 +271,23 @@ function Step({
     <Reveal className={cn("relative mx-auto max-w-6xl", className)}>
       {rail && <span aria-hidden="true" className="agent-rail hidden sm:block" />}
 
-      <div className={cn("flex items-center gap-3", blurb ? "mb-2" : "mb-5")}>
-        <span
-          aria-hidden="true"
-          className="agent-step-marker relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-terminal-green-dim/50 bg-terminal-green/[0.08] font-mono text-xs font-semibold text-terminal-green shadow-[0_0_18px_-6px_hsl(154_40%_53%_/_0.7)]"
-        >
-          {n}
-        </span>
-        <h3 className="font-mono text-base font-semibold text-foreground">{title}</h3>
+      <div className={cn("relative z-[1]", blurb ? "" : "")}>
+        <div className={cn("flex items-center gap-3", blurb ? "mb-2" : "mb-5")}>
+          <span
+            aria-hidden="true"
+            className="agent-step-marker relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-terminal-green-dim/50 bg-terminal-green/[0.08] font-mono text-xs font-semibold text-terminal-green shadow-[0_0_18px_-6px_hsl(154_40%_53%_/_0.7)]"
+          >
+            {n}
+          </span>
+          <h3 className="font-mono text-base font-semibold text-foreground">{title}</h3>
+        </div>
+
+        {blurb && (
+          <p className="mb-5 max-w-2xl pl-10 text-sm leading-6 text-muted-foreground">{blurb}</p>
+        )}
+
+        {children}
       </div>
-
-      {blurb && (
-        <p className="mb-5 max-w-2xl pl-10 text-sm leading-6 text-muted-foreground">{blurb}</p>
-      )}
-
-      {children}
     </Reveal>
   )
 }
