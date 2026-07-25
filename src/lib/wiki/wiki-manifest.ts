@@ -20,11 +20,20 @@ export type WikiCategory = {
 const manualManifest: WikiPage[] = [
   // Getting Started
   {
+    slug: "home",
+    title: "Home",
+    wikiPath: "Home",
+    category: "Getting Started",
+    order: 1,
+    description:
+      "Overview of coco's commands, configuration, workstation, and advanced workflows",
+  },
+  {
     slug: "getting-started",
     title: "Getting Started",
     wikiPath: "Getting-Started",
     category: "Getting Started",
-    order: 1,
+    order: 2,
     description: "Installation, setup, and your first AI-generated commit",
   },
   {
@@ -32,7 +41,7 @@ const manualManifest: WikiPage[] = [
     title: "Command Reference",
     wikiPath: "Command-Reference",
     category: "Getting Started",
-    order: 2,
+    order: 3,
     description: "Complete reference for every coco command and flag",
   },
 
@@ -95,6 +104,24 @@ const manualManifest: WikiPage[] = [
     order: 3,
     description: "Chord rules, contextual transitions, cross-view workflows (compare-refs, bisect), palette, search, breadcrumb",
   },
+  {
+    slug: "workspace",
+    title: "Workspace",
+    wikiPath: "Workspace",
+    category: "Terminal Workstation",
+    order: 4,
+    description:
+      "Scan and manage multiple repositories from one terminal workstation",
+  },
+  {
+    slug: "issue-pr-triage",
+    title: "Issue & PR Triage",
+    wikiPath: "Issue-PR-Triage",
+    category: "Terminal Workstation",
+    order: 5,
+    description:
+      "Review and act on forge issues and pull requests from the CLI and workstation",
+  },
 
   // Team & Enterprise
   {
@@ -104,6 +131,15 @@ const manualManifest: WikiPage[] = [
     category: "Team & Enterprise",
     order: 1,
     description: "Shared configurations and enterprise deployment",
+  },
+  {
+    slug: "multi-forge-support",
+    title: "Multi-Forge Support",
+    wikiPath: "Multi-Forge-Support",
+    category: "Team & Enterprise",
+    order: 2,
+    description:
+      "Use consistent pull-request and issue workflows across supported Git forges",
   },
 
   // Advanced Features
@@ -132,11 +168,27 @@ const manualManifest: WikiPage[] = [
     description: "Route tasks to different AI models",
   },
   {
+    slug: "agent-cli-and-mcp",
+    title: "Agent CLI and MCP",
+    wikiPath: "Agent-CLI-and-MCP",
+    category: "Advanced Features",
+    order: 4,
+    description: "Structured CLI and MCP interfaces for coding agents and automation",
+  },
+  {
+    slug: "testing-scenarios",
+    title: "Testing Scenarios",
+    wikiPath: "Testing-Scenarios",
+    category: "Advanced Features",
+    order: 5,
+    description: "Create deterministic Git repositories for testing complex workflows",
+  },
+  {
     slug: "documentation-workflow",
     title: "Documentation Workflow",
     wikiPath: "Documentation-Workflow",
     category: "Advanced Features",
-    order: 4,
+    order: 6,
     description: "Maintain wiki documentation locally",
   },
 
