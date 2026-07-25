@@ -49,9 +49,9 @@ const features: Feature[] = [
   },
   {
     icon: BotIcon,
-    title: "Agent CLI & Local MCP",
+    title: "Works with your AI assistant",
     description:
-      "Use commit drafting, review, changelog, and recap as strict protocol-v1 JSON operations or four discoverable MCP tools — root-bound, generation-only, and never a generic shell.",
+      "Add coco to Kiro, Cursor, Claude Desktop, or VS Code and your assistant can draft commits, review changes, and write changelogs on its own. Read-only, bound to the repo you opened.",
     layout: "default",
     visual: () => <AgentToolsVisual />,
     href: "#agents",
@@ -149,16 +149,16 @@ function AgentToolsVisual() {
   return (
     <div className="space-y-1.5 font-mono text-[10px] sm:text-[11px]">
       <div className="flex items-center justify-between rounded border border-border bg-background/50 px-2.5 py-1.5">
-        <span className="text-foreground/80">agent --input request.json</span>
-        <span className="text-terminal-green">v1</span>
+        <span className="text-foreground/80">coco mcp</span>
+        <span className="text-terminal-green-bright">4 tools</span>
       </div>
       <div className="flex items-center justify-between rounded border border-border bg-background/50 px-2.5 py-1.5">
-        <span className="text-foreground/80">mcp --repo .</span>
-        <span className="text-terminal-green-bright">4 tools</span>
+        <span className="text-foreground/80">coco agent review</span>
+        <span className="text-terminal-green">json</span>
       </div>
       <div className="flex items-center gap-1.5 pt-1 text-muted-foreground">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-terminal-green" />
-        schemas · roots · cancellation
+        read-only · repo-bound
       </div>
     </div>
   )
