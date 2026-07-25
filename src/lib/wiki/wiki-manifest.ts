@@ -123,6 +123,17 @@ const manualManifest: WikiPage[] = [
       "Review and act on forge issues and pull requests from the CLI and workstation",
   },
 
+  // Agents & MCP
+  {
+    slug: "agent-cli-and-mcp",
+    title: "Agent CLI and MCP",
+    wikiPath: "Agent-CLI-and-MCP",
+    category: "Agents & MCP",
+    order: 1,
+    description:
+      "Expose commit drafting, review, changelog, and recap to coding agents over stdio MCP or a versioned JSON CLI",
+  },
+
   // Team & Enterprise
   {
     slug: "team-collaboration",
@@ -213,9 +224,10 @@ export const categoryOrder: Record<string, number> = {
   "Getting Started": 1,
   Configuration: 2,
   "Terminal Workstation": 3,
-  "Team & Enterprise": 4,
-  "Advanced Features": 5,
-  "Help & Support": 6,
+  "Agents & MCP": 4,
+  "Team & Enterprise": 5,
+  "Advanced Features": 6,
+  "Help & Support": 7,
   Uncategorized: 99,
 }
 

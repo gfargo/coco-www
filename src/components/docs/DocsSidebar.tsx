@@ -16,6 +16,7 @@ import {
     HelpCircle,
     FolderOpen,
     PaletteIcon,
+    BotIcon,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -23,6 +24,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   "Getting Started": Book,
   Configuration: Settings,
   "Terminal Workstation": MonitorIcon,
+  "Agents & MCP": BotIcon,
   "Team & Enterprise": Users,
   "Advanced Features": Wrench,
   "Help & Support": HelpCircle,

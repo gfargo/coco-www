@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type CSSProperties, type ReactNode } from "react"
 import {
     ArrowRightIcon,
     CheckIcon,
@@ -16,6 +16,7 @@ import {
     type LucideIcon,
 } from "lucide-react"
 
+import { Reveal, useInView } from "@/components/Reveal"
 import { Section } from "@/components/Section"
 import { SectionHeader } from "@/components/SectionHeader"
 import { TerminalAtmosphere } from "@/components/TerminalAtmosphere"
@@ -202,7 +203,10 @@ function CopyButton({ value, label }: { value: string; label: string }) {
     >
       {copied ? (
         <>
-          <CheckIcon className="h-3 w-3 text-terminal-green" aria-hidden="true" />
+          <CheckIcon
+            className="h-3 w-3 text-terminal-green motion-safe:animate-in motion-safe:zoom-in-50"
+            aria-hidden="true"
+          />
           copied
         </>
       ) : (
@@ -218,7 +222,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
 /** Shared faux-terminal chrome, previously duplicated across sections. */
 function TerminalChrome({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-1.5 border-b border-border/60 bg-[hsl(150_20%_8%)] px-4 py-3">
+    <div className="relative z-[2] flex items-center gap-1.5 border-b border-border/60 bg-[hsl(150_20%_8%)] px-4 py-3">
       <span className="h-2 w-2 rounded-full bg-[#ff5f57]/80" />
       <span className="h-2 w-2 rounded-full bg-[#febc2e]/80" />
       <span className="h-2 w-2 rounded-full bg-[#28c840]/80" />
@@ -227,14 +231,59 @@ function TerminalChrome({ label }: { label: string }) {
   )
 }
 
-function StepNumber({ n }: { n: number }) {
+/** Blinking block caret, matching the terminal type across the site. */
+function Caret({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-terminal-green-dim/50 bg-terminal-green/[0.08] font-mono text-xs font-semibold text-terminal-green"
-    >
-      {n}
-    </span>
+      className={cn(
+        "ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[0.12em] bg-terminal-green/80 motion-safe:animate-cursor-blink",
+        className
+      )}
+    />
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Step scaffolding — a numbered marker plus the trace that links     */
+/*  one step to the next.                                             */
+/* ------------------------------------------------------------------ */
+
+function Step({
+  n,
+  title,
+  blurb,
+  rail = true,
+  className,
+  children,
+}: {
+  n: number
+  title: string
+  blurb?: string
+  rail?: boolean
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <Reveal className={cn("relative mx-auto max-w-6xl", className)}>
+      {rail && <span aria-hidden="true" className="agent-rail hidden sm:block" />}
+
+      <div className={cn("flex items-center gap-3", blurb ? "mb-2" : "mb-5")}>
+        <span
+          aria-hidden="true"
+          className="agent-step-marker relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-terminal-green-dim/50 bg-terminal-green/[0.08] font-mono text-xs font-semibold text-terminal-green shadow-[0_0_18px_-6px_hsl(154_40%_53%_/_0.7)]"
+        >
+          {n}
+        </span>
+        <h3 className="font-mono text-base font-semibold text-foreground">{title}</h3>
+      </div>
+
+      {blurb && (
+        <p className="mb-5 max-w-2xl pl-10 text-sm leading-6 text-muted-foreground">{blurb}</p>
+      )}
+
+      {children}
+    </Reveal>
   )
 }
 
@@ -245,37 +294,46 @@ function StepNumber({ n }: { n: number }) {
 function PathChooser() {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {paths.map(({ id, icon: Icon, audience, detail, command, commandNote, recommended }) => (
-        <div
+      {paths.map(({ id, icon: Icon, audience, detail, command, commandNote, recommended }, i) => (
+        <Reveal
           key={id}
+          delay={i * 90}
           className={cn(
-            "relative flex flex-col rounded-xl border bg-bg-elevated/55 p-5 transition-colors sm:p-6",
+            "agent-sweep group relative flex flex-col overflow-hidden rounded-xl border bg-bg-elevated/55 p-5 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 sm:p-6",
             recommended
-              ? "border-terminal-green-dim/60 shadow-[0_0_40px_-24px_hsl(154_40%_53%_/_0.55)]"
+              ? "border-terminal-green-dim/60 shadow-[0_0_40px_-24px_hsl(154_40%_53%_/_0.55)] hover:shadow-[0_0_50px_-18px_hsl(154_40%_53%_/_0.6)]"
               : "border-border hover:border-terminal-green-dim/50"
           )}
         >
           {recommended && (
-            <span className="absolute -top-2.5 left-5 rounded bg-terminal-green px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[hsl(150_22%_10%)]">
+            <span className="absolute -top-2.5 left-5 z-[2] rounded bg-terminal-green px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[hsl(150_22%_10%)]">
               most people
             </span>
           )}
 
-          <Icon className="mb-4 h-5 w-5 text-terminal-green" aria-hidden="true" />
+          <span className="relative z-[2] mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-terminal-green-dim/30 bg-terminal-green/[0.06] transition-all duration-300 group-hover:border-terminal-green-dim/70 group-hover:bg-terminal-green/[0.12] group-hover:shadow-[0_0_22px_-8px_hsl(154_40%_53%)]">
+            <Icon
+              className="h-4 w-4 text-terminal-green transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+          </span>
 
-          <h3 className="font-mono text-sm font-semibold leading-6 text-foreground sm:text-base">
+          <h3 className="relative z-[2] font-mono text-sm font-semibold leading-6 text-foreground sm:text-base">
             {audience}
           </h3>
-          <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{detail}</p>
+          <p className="relative z-[2] mt-2 flex-1 text-sm leading-6 text-muted-foreground">
+            {detail}
+          </p>
 
-          <div className="mt-5 rounded-md border border-border/70 bg-[hsl(var(--code-bg))] px-3 py-2.5">
+          <div className="relative z-[2] mt-5 rounded-md border border-border/70 bg-[hsl(var(--code-bg))] px-3 py-2.5 transition-colors duration-300 group-hover:border-terminal-green-dim/50">
             <code className="font-mono text-sm text-[hsl(var(--code-text))]">
               <span className="select-none text-terminal-green-dim">$ </span>
               {command}
+              <Caret />
             </code>
             <p className="mt-1 font-mono text-[10px] text-muted-foreground">{commandNote}</p>
           </div>
-        </div>
+        </Reveal>
       ))}
     </div>
   )
@@ -301,8 +359,12 @@ function ClientConfig() {
       </TabsList>
 
       {clients.map((client) => (
-        <TabsContent key={client.id} value={client.id} className="mt-0">
-          <div className="overflow-hidden rounded-xl border border-border/80 bg-[hsl(var(--code-bg))]">
+        <TabsContent
+          key={client.id}
+          value={client.id}
+          className="mt-0 motion-safe:data-[state=active]:animate-in motion-safe:data-[state=active]:fade-in-0 motion-safe:data-[state=active]:slide-in-from-bottom-1 motion-safe:data-[state=active]:duration-300"
+        >
+          <div className="overflow-hidden rounded-xl border border-border/80 bg-[hsl(var(--code-bg))] transition-colors duration-300 hover:border-terminal-green-dim/40">
             <div className="flex items-center justify-between gap-3 border-b border-border/60 bg-[hsl(150_20%_8%)] px-4 py-2.5">
               <code className="truncate font-mono text-[11px] text-muted-foreground">
                 {client.path}
@@ -326,27 +388,60 @@ function ClientConfig() {
 
 /* ------------------------------------------------------------------ */
 /*  Step 3 — proof that it connected                                   */
+/*  The tool list types itself out the first time it scrolls into      */
+/*  view, so the panel reads as a live handshake instead of a static   */
+/*  screenshot.                                                        */
 /* ------------------------------------------------------------------ */
 
+const BOOT_STEP_MS = 260
+
 function ConnectedTerminal() {
+  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.35 })
+
+  /** Sequences a boot line, or hides it until the panel is in view. */
+  const line = (index: number) =>
+    inView
+      ? {
+          className: "agent-boot-line",
+          style: { "--boot-delay": `${index * BOOT_STEP_MS}ms` } as CSSProperties,
+        }
+      : { className: "opacity-0", style: undefined }
+
   return (
-    <div className="overflow-hidden rounded-xl border border-border/80 bg-[hsl(150_24%_5%)] shadow-2xl shadow-black/30 ring-1 ring-terminal-green/10">
+    <div
+      ref={ref}
+      className="agent-scan relative overflow-hidden rounded-xl border border-border/80 bg-[hsl(150_24%_5%)] shadow-2xl shadow-black/30 ring-1 ring-terminal-green/10"
+    >
       <TerminalChrome label="coco mcp" />
-      <div className="space-y-4 p-5 font-mono text-[11px] leading-6 sm:p-6 sm:text-xs">
-        <p className="text-muted-foreground">
-          <span className="text-terminal-green-dim">→</span> coco MCP server started
+
+      <div className="relative z-[2] space-y-4 p-5 font-mono text-[11px] leading-6 sm:p-6 sm:text-xs">
+        <p {...line(0)}>
+          <span className="text-muted-foreground">
+            <span className="text-terminal-green-dim">→</span> coco MCP server started
+          </span>
         </p>
+
         <div className="space-y-1.5">
-          {tools.map(({ tool }) => (
-            <div key={tool} className="flex items-center gap-2">
-              <CheckIcon className="h-3 w-3 shrink-0 text-terminal-green" aria-hidden="true" />
-              <span className="text-terminal-green-bright">{tool}</span>
-            </div>
-          ))}
+          {tools.map(({ tool }, i) => {
+            const props = line(i + 1)
+            return (
+              <div key={tool} className={cn("flex items-center gap-2", props.className)} style={props.style}>
+                <CheckIcon
+                  className="agent-pop h-3 w-3 shrink-0 text-terminal-green"
+                  aria-hidden="true"
+                />
+                <span className="text-terminal-green-bright">{tool}</span>
+              </div>
+            )
+          })}
         </div>
-        <p className="border-t border-border/50 pt-4 text-muted-foreground">
-          Your assistant now calls these directly. Nothing else to wire up.
-        </p>
+
+        <div {...line(tools.length + 1)}>
+          <p className="border-t border-border/50 pt-4 text-muted-foreground">
+            Your assistant now calls these directly. Nothing else to wire up.
+            {inView && <Caret className="h-[0.9em] w-[0.45em]" />}
+          </p>
+        </div>
       </div>
     </div>
   )
@@ -362,62 +457,58 @@ export function AgentMcpSection() {
       <TerminalAtmosphere variant="section" />
 
       <div className="container relative z-10">
-        <SectionHeader
-          prompt="~/coco $ coco mcp"
-          title="Let your AI assistant use coco"
-          subtitle="Commit messages, code review, changelogs, and recaps, exposed as tools an agent can call. Two ways in: connect it to your editor over MCP, or pipe JSON to it from a script."
-        />
+        <Reveal>
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-terminal-green-dim/40 bg-terminal-green/[0.06] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-terminal-green">
+            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-terminal-green opacity-70 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-terminal-green" />
+            </span>
+            stdio MCP · 4 tools · read-only
+          </span>
+
+          <SectionHeader
+            prompt="~/coco $ coco mcp"
+            title="Let your AI assistant use coco"
+            subtitle="Commit messages, code review, changelogs, and recaps, exposed as tools an agent can call. Two ways in: connect it to your editor over MCP, or pipe JSON to it from a script."
+          />
+        </Reveal>
 
         {/* ---- Step 1: choose ---- */}
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-5 flex items-center gap-3">
-            <StepNumber n={1} />
-            <h3 className="font-mono text-base font-semibold text-foreground">
-              Pick the one that describes you
-            </h3>
-          </div>
+        <Step n={1} title="Pick the one that describes you">
           <PathChooser />
-        </div>
+        </Step>
 
         {/* ---- Step 2: configure ---- */}
-        <div className="mx-auto mt-14 max-w-6xl">
-          <div className="mb-2 flex items-center gap-3">
-            <StepNumber n={2} />
-            <h3 className="font-mono text-base font-semibold text-foreground">
-              Add it to your editor
-            </h3>
-          </div>
-          <p className="mb-5 max-w-2xl pl-10 text-sm leading-6 text-muted-foreground">
-            One entry, no repository path. coco reads the workspace folder your editor is already
-            reporting, so the same config works in every project you open.
-          </p>
-
+        <Step
+          n={2}
+          title="Add it to your editor"
+          blurb="One entry, no repository path. coco reads the workspace folder your editor is already reporting, so the same config works in every project you open."
+          className="mt-14"
+        >
           <div className="grid items-start gap-5 lg:grid-cols-[1.15fr_0.85fr]">
             <ClientConfig />
             <ConnectedTerminal />
           </div>
-        </div>
+        </Step>
 
         {/* ---- Step 3: use ---- */}
-        <div className="mx-auto mt-14 max-w-6xl">
-          <div className="mb-2 flex items-center gap-3">
-            <StepNumber n={3} />
-            <h3 className="font-mono text-base font-semibold text-foreground">Then just ask</h3>
-          </div>
-          <p className="mb-5 max-w-2xl pl-10 text-sm leading-6 text-muted-foreground">
-            You talk to your assistant normally. It picks the tool and gets back structured data,
-            not terminal output it has to guess at.
-          </p>
-
+        <Step
+          n={3}
+          title="Then just ask"
+          blurb="You talk to your assistant normally. It picks the tool and gets back structured data, not terminal output it has to guess at."
+          rail={false}
+          className="mt-14"
+        >
           <div className="grid gap-3 sm:grid-cols-2">
-            {tools.map(({ tool, icon: Icon, ask, returns, fields }) => (
-              <div
+            {tools.map(({ tool, icon: Icon, ask, returns, fields }, i) => (
+              <Reveal
                 key={tool}
-                className="group rounded-lg border border-border bg-bg-elevated/55 p-5 transition-colors hover:border-terminal-green-dim"
+                delay={i * 80}
+                className="agent-sweep group relative overflow-hidden rounded-lg border border-border bg-bg-elevated/55 p-5 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-terminal-green-dim hover:shadow-[0_0_38px_-22px_hsl(154_40%_53%_/_0.8)]"
               >
-                <div className="flex items-start gap-3">
+                <div className="relative z-[2] flex items-start gap-3">
                   <Icon
-                    className="mt-0.5 h-4 w-4 shrink-0 text-terminal-green"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-terminal-green transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_6px_hsl(154_40%_53%)]"
                     aria-hidden="true"
                   />
                   <div className="min-w-0">
@@ -428,49 +519,60 @@ export function AgentMcpSection() {
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-3.5 pl-7">
-                  <code className="font-mono text-[10px] text-terminal-green-dim">{tool}</code>
-                  <span aria-hidden="true" className="text-border">
-                    ·
-                  </span>
-                  {fields.map((field) => (
-                    <code
-                      key={field}
-                      className="rounded bg-background/70 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
-                    >
-                      {field}
-                    </code>
-                  ))}
+                <div className="relative z-[2] mt-4">
+                  <span aria-hidden="true" className="agent-wire block" />
+                  <div className="mt-3.5 flex flex-wrap items-center gap-1.5 pl-7">
+                    <code className="font-mono text-[10px] text-terminal-green-dim">{tool}</code>
+                    <ArrowRightIcon
+                      className="h-2.5 w-2.5 text-border transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-terminal-green-dim"
+                      aria-hidden="true"
+                    />
+                    {fields.map((field, fi) => (
+                      <code
+                        key={field}
+                        style={{ transitionDelay: `${fi * 60}ms` }}
+                        className="rounded border border-transparent bg-background/70 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground transition-all duration-300 group-hover:border-terminal-green-dim/40 group-hover:text-terminal-green-bright/90"
+                      >
+                        {field}
+                      </code>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
-        </div>
+        </Step>
 
         {/* ---- Safety ---- */}
-        <div className="mx-auto mt-14 max-w-6xl rounded-xl border border-terminal-green-dim/30 bg-terminal-green/[0.04] p-5 sm:p-7">
+        <Reveal className="mx-auto mt-14 max-w-6xl rounded-xl border border-terminal-green-dim/30 bg-terminal-green/[0.04] p-5 sm:p-7">
           <div className="mb-5 flex items-center gap-2.5">
-            <ShieldCheckIcon className="h-5 w-5 text-terminal-green" aria-hidden="true" />
+            <span className="relative flex h-5 w-5 items-center justify-center">
+              <span
+                aria-hidden="true"
+                className="agent-breathe absolute inset-[-6px] rounded-full bg-terminal-green/25 blur-md"
+              />
+              <ShieldCheckIcon className="relative h-5 w-5 text-terminal-green" aria-hidden="true" />
+            </span>
             <h3 className="font-mono text-base font-semibold text-foreground">
               What it will not do
             </h3>
           </div>
 
           <dl className="grid gap-5 md:grid-cols-3">
-            {guarantees.map(({ label, detail }) => (
-              <div key={label}>
+            {guarantees.map(({ label, detail }, i) => (
+              <Reveal key={label} delay={i * 100}>
                 <dt className="font-mono text-sm font-semibold leading-6 text-terminal-green-bright">
                   {label}
                 </dt>
                 <dd className="mt-1.5 text-sm leading-6 text-muted-foreground">{detail}</dd>
-              </div>
+              </Reveal>
             ))}
           </dl>
-        </div>
+        </Reveal>
 
         {/* ---- CTA ---- */}
-        <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-4 rounded-lg border border-border bg-bg-elevated/55 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <div className="flex items-start gap-3">
+        <Reveal className="agent-sweep group relative mx-auto mt-8 flex max-w-6xl flex-col gap-4 overflow-hidden rounded-lg border border-border bg-bg-elevated/55 px-5 py-5 transition-colors duration-300 hover:border-terminal-green-dim/50 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="relative z-[2] flex items-start gap-3">
             <TerminalIcon
               className="mt-0.5 h-4 w-4 shrink-0 text-terminal-green"
               aria-hidden="true"
@@ -489,15 +591,17 @@ export function AgentMcpSection() {
             </div>
           </div>
           <TrackedLink
-            href={siteConfig.links.agentMcpWiki}
-            target="_blank"
+            href={siteConfig.links.agentMcpDocs}
             eventName="Agent MCP Guide Click"
-            className="inline-flex shrink-0 items-center gap-2 self-start rounded-md border border-terminal-green-dim bg-terminal-green/10 px-4 py-2.5 font-mono text-sm text-terminal-green transition-colors hover:bg-terminal-green/15 hover:text-terminal-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:self-auto"
+            className="relative z-[2] inline-flex shrink-0 items-center gap-2 self-start rounded-md border border-terminal-green-dim bg-terminal-green/10 px-4 py-2.5 font-mono text-sm text-terminal-green transition-all duration-300 hover:bg-terminal-green/15 hover:text-terminal-green-bright hover:shadow-[0_0_26px_-10px_hsl(154_40%_53%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:self-auto"
           >
             Read the guide
-            <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
+            <ArrowRightIcon
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+              aria-hidden="true"
+            />
           </TrackedLink>
-        </div>
+        </Reveal>
       </div>
     </Section>
   )

@@ -110,3 +110,277 @@
     box-shadow: 0 0 12px hsl(var(--accent-green));
   }
 }
+/* ------------------------------------------------------------------ */
+/*  Scroll reveal — shared by the <Reveal /> primitive                 */
+/* ------------------------------------------------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Agents / MCP section flourishes                                    */
+/*  Bespoke enough that raw CSS reads better than utility soup, and    */
+/*  it keeps every animation in one place for the reduced-motion rule. */
+/* ------------------------------------------------------------------ */
+
+/* The hairline trace that links steps 1 → 2 → 3, with a signal pulse
+   travelling down it to suggest a connection being established. */
+.agent-rail {
+  position: absolute;
+  left: 0.875rem; /* centre of the 1.75rem step marker */
+  top: 2.25rem;
+  bottom: -3.5rem;
+  width: 1px;
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--accent-green-dim) / 0.6),
+    hsl(var(--border-default)) 40%,
+    hsl(var(--border-default) / 0.15)
+  );
+}
+
+.agent-rail::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  width: 3px;
+  height: 20%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(var(--accent-green) / 0.9),
+    transparent
+  );
+  animation: agent-rail-signal 5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes agent-rail-signal {
+  0% {
+    top: -20%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* One-shot ring that expands out of a step marker as it reveals. */
+.agent-step-marker::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--accent-green) / 0.55);
+  opacity: 0;
+}
+
+.reveal[data-revealed="true"] .agent-step-marker::before {
+  animation: agent-ring-out 1.5s ease-out both;
+}
+
+@keyframes agent-ring-out {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+/* Diagonal light sweep across a card on hover. Needs a positioned,
+   overflow-hidden host. */
+.agent-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-130%);
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    hsl(var(--accent-green) / 0.11) 50%,
+    transparent 65%
+  );
+}
+
+.agent-sweep:hover::after,
+.agent-sweep:focus-within::after {
+  opacity: 1;
+  animation: agent-card-sweep 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes agent-card-sweep {
+  from {
+    transform: translateX(-130%);
+  }
+  to {
+    transform: translateX(130%);
+  }
+}
+
+/* A dashed hairline that starts inert and streams left→right on hover,
+   reading as data moving through the tool. */
+.agent-wire {
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    hsl(var(--border-default)) 0 6px,
+    transparent 6px 12px
+  );
+  background-size: 12px 1px;
+  background-repeat: repeat-x;
+  transition: background-image var(--transition-default);
+}
+
+.group:hover .agent-wire {
+  background-image: linear-gradient(
+    to right,
+    hsl(var(--accent-green) / 0.75) 0 6px,
+    transparent 6px 12px
+  );
+  animation: agent-wire-flow 600ms linear infinite;
+}
+
+@keyframes agent-wire-flow {
+  to {
+    background-position: 12px 0;
+  }
+}
+
+/* Slow phosphor sweep down a faux terminal. */
+.agent-scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 30%;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(var(--accent-green) / 0.055),
+    transparent
+  );
+  animation: agent-scan-drift 7s linear infinite;
+}
+
+@keyframes agent-scan-drift {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(340%);
+  }
+}
+
+/* Boot-sequence lines: revealed one at a time via --boot-delay. */
+.agent-boot-line {
+  opacity: 0;
+  animation: agent-boot-in 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--boot-delay, 0ms);
+}
+
+@keyframes agent-boot-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Checkmarks pop in on the same beat as their line. */
+.agent-boot-line .agent-pop {
+  animation: agent-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: inherit;
+}
+
+@keyframes agent-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Soft breathing glow, used behind the safety shield. */
+.agent-breathe {
+  animation: agent-breathe 4s ease-in-out infinite;
+}
+
+@keyframes agent-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.06);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Motion opt-out                                                     */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .agent-boot-line {
+    opacity: 1;
+    animation: none;
+  }
+
+  .agent-boot-line .agent-pop,
+  .agent-breathe,
+  .group:hover .agent-wire,
+  .agent-sweep:hover::after,
+  .agent-sweep:focus-within::after,
+  .reveal[data-revealed="true"] .agent-step-marker::before {
+    animation: none;
+  }
+
+  .agent-rail::after,
+  .agent-scan::before {
+    display: none;
+  }
+}

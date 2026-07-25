@@ -14,6 +14,7 @@ import {
     ExternalLink,
     SparklesIcon,
     PaletteIcon,
+    BotIcon
 } from "lucide-react"
 import { THEME_COUNT } from "@/config/themes"
 import { siteConfig } from "@/config/site"
@@ -45,6 +46,7 @@ const categoryMeta: Record<
   "Getting Started": { icon: Book, accent: "text-terminal-green" },
   Configuration: { icon: Settings, accent: "text-terminal-green-bright" },
   "Terminal Workstation": { icon: MonitorIcon, accent: "text-terminal-green" },
+  "Agents & MCP": { icon: BotIcon, accent: "text-terminal-green-bright" },
   "Team & Enterprise": { icon: Users, accent: "text-terminal-green-bright" },
   "Advanced Features": { icon: Wrench, accent: "text-terminal-green" },
   "Help & Support": { icon: HelpCircle, accent: "text-terminal-green-bright" },

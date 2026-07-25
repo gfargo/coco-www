@@ -107,6 +107,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} bg-background text-foreground`}>
+        {/* Scroll-reveal starts hidden and is un-hidden by an
+            IntersectionObserver. Without JS there is nothing to un-hide it,
+            so pin it visible. */}
+        <noscript>
+          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
         {children}
         <Toaster />
       </body>

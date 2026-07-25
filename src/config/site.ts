@@ -57,6 +57,9 @@ export const siteConfig = {
     discussions: "https://github.com/gfargo/coco/discussions",
     issues: "https://github.com/gfargo/coco/issues/new",
     wiki: "https://github.com/gfargo/coco/wiki",
+    // Local docs route. The page is wiki-backed, so this renders the same
+    // content as the wiki without pushing people off the site.
+    agentMcpDocs: "/docs/agent-cli-and-mcp",
     agentMcpWiki: "https://github.com/gfargo/coco/wiki/Agent-CLI-and-MCP",
     ollamaWiki: "https://github.com/gfargo/coco/wiki/Using-Ollama",
     commitPrompt:
