@@ -51,12 +51,12 @@ const forges: Forge[] = [
   {
     name: "Gitea / Forgejo",
     cli: "API",
-    note: "Codeberg auto-detected; self-hosted via forgeHosts.",
+    note: "Self-hosted instances auto-detected or mapped via forgeHosts.",
   },
   {
     name: "Codeberg",
     cli: "API",
-    note: "Auto-detected from codeberg.org remotes. Same adapter as Gitea.",
+    note: "Auto-detected from codeberg.org remotes. No config needed.",
   },
 ]
 
