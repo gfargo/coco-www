@@ -53,6 +53,11 @@ const forges: Forge[] = [
     cli: "API",
     note: "Codeberg auto-detected; self-hosted via forgeHosts.",
   },
+  {
+    name: "Codeberg",
+    cli: "API",
+    note: "Auto-detected from codeberg.org remotes. Same adapter as Gitea.",
+  },
 ]
 
 interface Capability {
@@ -152,7 +157,7 @@ export const ForgeSupportSection = () => {
         <SectionHeader
           prompt="~/coco $ prs"
           title="One workflow across every forge"
-          subtitle="coco detects your remote and dispatches through one forge adapter — gh for GitHub and GitHub Enterprise, glab for GitLab, and the REST API for Bitbucket Cloud, Bitbucket Server, and Gitea. Commands and workstation actions stay consistent across all six."
+          subtitle="coco detects your remote and dispatches through one forge adapter — gh for GitHub and GitHub Enterprise, glab for GitLab, and the REST API for Bitbucket Cloud, Bitbucket Server, Gitea, and Codeberg. Commands and workstation actions stay consistent across all seven."
         />
 
         <div className="mx-auto grid max-w-6xl gap-4 sm:gap-5 lg:grid-cols-3">
