@@ -9,7 +9,7 @@ import {
     MonitorIcon,
     CircleDotIcon,
     GitPullRequestIcon,
-    SettingsIcon,
+    SettingsIcon
 } from "lucide-react"
 import { track } from "@vercel/analytics/react"
 
@@ -157,6 +157,52 @@ const commands: (CommandCardProps & { id: string })[] = [
     ],
   },
   {
+    id: "watch",
+    name: "watch",
+    tagline: "Continuous background review",
+    description:
+      "Monitor your working tree and re-run review or commit-draft on each debounced save. Acts as a background reviewer that flags issues as you code, or a live commit-message preview while staging.",
+    usage: "coco watch",
+    icon: MonitorIcon,
+    flags: [
+      { flag: "--review", description: "Re-run code review on each settle (default)" },
+      { flag: "--draft", description: "Keep a commit-message draft current" },
+      { flag: "--staged", description: "Watch staged changes only" },
+      { flag: "--interval <ms>", description: "Minimum ms between LLM calls (default: 15000)" },
+      { flag: "--once", description: "Run one pass and exit" },
+      { flag: "--json", description: "Emit line-delimited JSON events" },
+    ],
+  },
+  {
+    id: "blame",
+    name: "blame",
+    tagline: "Understand why code was written",
+    description:
+      "Run git blame with optional AI-powered explanation. Without --explain, it prints a formatted blame table (no API key needed). With --explain, the LLM explains why each blamed range was introduced.",
+    usage: "coco blame src/index.ts --explain",
+    icon: ScrollTextIcon,
+    flags: [
+      { flag: "--lines <range>", description: "Limit to a line range (e.g. 10:50)" },
+      { flag: "--explain", description: "Ask the LLM to explain introducing commits" },
+      { flag: "--json", description: "Machine-readable output" },
+    ],
+  },
+  {
+    id: "lint",
+    name: "lint",
+    tagline: "Audit commit messages at scale",
+    description:
+      "Scan a range of commits and validate each message against commitlint rules. Reports violations with per-commit detail and exits non-zero for CI gating. --fix rewrites non-conforming subjects via LLM + interactive rebase.",
+    usage: "coco lint",
+    icon: ClipboardCheckIcon,
+    flags: [
+      { flag: "--since <ref>", description: "Lint commits in <ref>..HEAD" },
+      { flag: "--range <range>", description: "Explicit commit range" },
+      { flag: "--fix", description: "Reword non-conforming subjects via AI + rebase" },
+      { flag: "--severity", description: "Exit non-zero at this level (error or warning)" },
+    ],
+  },
+  {
     id: "init",
     name: "init",
     tagline: "Set up in seconds",
@@ -229,8 +275,9 @@ export const ToolbeltSection = () => {
             <code className="font-mono text-terminal-green">dynamic</code>{" "}
             model routing which selects the best model per task — a fast model
             for commits, a thorough one for changelogs and reviews. Works across
-            seven providers: OpenAI, Anthropic, Gemini, Mistral, Azure OpenAI,
-            AWS Bedrock, and Ollama for fully local, private operation.
+            fifteen providers: OpenAI, Anthropic, Gemini, Mistral, Azure OpenAI,
+            AWS Bedrock, Ollama for fully local operation, plus OpenAI-compatible
+            presets (DeepSeek, Groq, xAI, Together, Fireworks, OpenRouter, LM Studio, vLLM).
           </p>
         </div>
       </div>

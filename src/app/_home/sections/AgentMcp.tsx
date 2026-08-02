@@ -11,6 +11,7 @@ import {
     ClipboardCheckIcon,
     CalendarClockIcon,
     PlugZapIcon,
+    ScissorsIcon,
     ShieldCheckIcon,
     TerminalIcon,
     type LucideIcon,
@@ -35,7 +36,7 @@ const paths = [
     icon: PlugZapIcon,
     audience: "You code with an AI assistant",
     detail:
-      "Kiro, Cursor, Claude Desktop, VS Code with Copilot, Windsurf. Add coco once and your assistant discovers four tools it can call on its own.",
+      "Kiro, Cursor, Claude Desktop, VS Code with Copilot, Windsurf. Add coco once and your assistant discovers five tools it can call on its own.",
     command: "coco mcp",
     commandNote: "add to your editor's MCP config",
     recommended: true,
@@ -158,6 +159,14 @@ const tools: Tool[] = [
     returns:
       "A written summary of a time window or a working tree, for standups and status updates.",
     fields: ["title", "summary"],
+  },
+  {
+    tool: "coco_condense_diff",
+    icon: ScissorsIcon,
+    ask: "Condense this large diff so I can reason about it.",
+    returns:
+      "A structurally condensed diff within a token budget. No LLM call, no API key needed in structural mode.",
+    fields: ["condensed", "metrics", "filesIncluded", "filesOmitted"],
   },
 ]
 
@@ -468,7 +477,7 @@ export function AgentMcpSection() {
               <span className="absolute inline-flex h-full w-full rounded-full bg-terminal-green opacity-70 motion-safe:animate-ping" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-terminal-green" />
             </span>
-            stdio MCP · 4 tools · read-only
+            stdio MCP · 5 tools · read-only
           </span>
 
           <SectionHeader

@@ -43,6 +43,16 @@ const forges: Forge[] = [
     cli: "API",
     note: "Uses the REST API — no extra CLI required.",
   },
+  {
+    name: "Bitbucket Server",
+    cli: "API",
+    note: "Self-hosted (Data Center). Map via forgeHosts config.",
+  },
+  {
+    name: "Gitea / Forgejo",
+    cli: "API",
+    note: "Codeberg auto-detected; self-hosted via forgeHosts.",
+  },
 ]
 
 interface Capability {
@@ -142,7 +152,7 @@ export const ForgeSupportSection = () => {
         <SectionHeader
           prompt="~/coco $ prs"
           title="One workflow across every forge"
-          subtitle="coco detects your remote and dispatches through one forge adapter — gh for GitHub and GitHub Enterprise, glab for GitLab, and the REST API for Bitbucket Cloud. Commands and workstation actions stay consistent."
+          subtitle="coco detects your remote and dispatches through one forge adapter — gh for GitHub and GitHub Enterprise, glab for GitLab, and the REST API for Bitbucket Cloud, Bitbucket Server, and Gitea. Commands and workstation actions stay consistent across all six."
         />
 
         <div className="mx-auto grid max-w-6xl gap-4 sm:gap-5 lg:grid-cols-3">
@@ -192,7 +202,7 @@ export const ForgeSupportSection = () => {
           <p className="mt-3 text-center text-xs text-muted-foreground">
             GitLab merge-request triage in{" "}
             <code className="font-mono text-terminal-green">coco ui</code> — draft, pipeline, and
-            approval state with a live inspector. The same workflow and keys carry across GitHub and Bitbucket Cloud.
+            approval state with a live inspector. The same workflow and keys carry across all supported forges.
           </p>
         </div>
       </div>
