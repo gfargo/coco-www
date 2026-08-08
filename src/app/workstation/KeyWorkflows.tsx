@@ -115,7 +115,7 @@ const WORKFLOWS: WorkflowRow[] = [
     description:
       "Merge the cursored branch into current with M (auto-detects fast-forward), reset your branch to any ref with Z (soft / mixed / hard choice), or sync with S (pull + push compound). Push with P raises a sub-choice so force-push is discoverable but gated. Every destructive op pushes an undo entry — g u reverts it.",
     keys: ["M", "Z", "S", "P"],
-    media: { src: "/screenshots/view-branches.png" },
+    media: { src: "/screenshots/demo-branch-operations.gif", animated: true },
   },
   {
     icon: SearchIcon,
