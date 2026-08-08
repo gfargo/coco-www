@@ -2,19 +2,19 @@
 
 import { MediaFrame } from "@/components/MediaFrame"
 import {
-  ArchiveIcon,
-  CheckSquareIcon,
-  GitBranchIcon,
-  GitCommitIcon,
-  GitMergeIcon,
-  GitPullRequestIcon,
-  KeyboardIcon,
-  LayoutGridIcon,
-  RectangleHorizontalIcon,
-  RotateCcwIcon,
-  SearchIcon,
-  SplitIcon,
-  type LucideIcon,
+    ArchiveIcon,
+    CheckSquareIcon,
+    GitBranchIcon,
+    GitCommitIcon,
+    GitMergeIcon,
+    GitPullRequestIcon,
+    KeyboardIcon,
+    LayoutGridIcon,
+    RectangleHorizontalIcon,
+    RotateCcwIcon,
+    SearchIcon,
+    SplitIcon,
+    type LucideIcon,
 } from "lucide-react"
 
 import { Lightbox } from "@/components/Lightbox"
@@ -108,6 +108,14 @@ const WORKFLOWS: WorkflowRow[] = [
       "When a merge, rebase, cherry-pick, or revert stops on conflicts, the conflicts view lists every file. Keep theirs (u) or keep ours (U) per file, or open it in your editor — then continue the operation (C) once it's clean, without dropping to the shell.",
     keys: ["g", "x", "u/U"],
     media: { src: "/screenshots/demo-conflicts.gif", animated: true },
+  },
+  {
+    icon: GitBranchIcon,
+    title: "Branch operations — merge, reset, sync",
+    description:
+      "Merge the cursored branch into current with M (auto-detects fast-forward), reset your branch to any ref with Z (soft / mixed / hard choice), or sync with S (pull + push compound). Push with P raises a sub-choice so force-push is discoverable but gated. Every destructive op pushes an undo entry — g u reverts it.",
+    keys: ["M", "Z", "S", "P"],
+    media: { src: "/screenshots/view-branches.png" },
   },
   {
     icon: SearchIcon,

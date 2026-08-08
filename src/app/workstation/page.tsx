@@ -1,10 +1,10 @@
 import { Metadata } from "next"
 import Link from "next/link"
 import {
-  BookOpenIcon,
-  ChevronRightIcon,
-  CodeIcon,
-  MonitorIcon,
+    BookOpenIcon,
+    ChevronRightIcon,
+    CodeIcon,
+    MonitorIcon,
 } from "lucide-react"
 
 import { Header } from "@/components/Header"
@@ -118,6 +118,7 @@ const comparisonRows: Array<{ feature: string } & Record<ClientKey, Support>> = 
   { feature: "Conflict resolution helper", coco: "yes", gitkraken: "yes", lazygit: "partial", gitui: "partial", tig: "no" },
   { feature: "Bisect & reflog recovery", coco: "yes", gitkraken: "partial", lazygit: "partial", gitui: "no", tig: "partial" },
   { feature: "Global undo (reflog-powered)", coco: "yes", gitkraken: "partial", lazygit: "yes", gitui: "no", tig: "no" },
+  { feature: "Branch merge/reset/sync from TUI", coco: "yes", gitkraken: "yes", lazygit: "yes", gitui: "partial", tig: "no" },
   { feature: "Multi-select / batch operations", coco: "yes", gitkraken: "partial", lazygit: "partial", gitui: "no", tig: "no" },
   { feature: "Content search (pickaxe -S / -G)", coco: "yes", gitkraken: "partial", lazygit: "no", gitui: "no", tig: "partial" },
   { feature: "Recursive submodule drill-in", coco: "yes", gitkraken: "partial", lazygit: "partial", gitui: "no", tig: "no" },
@@ -140,7 +141,7 @@ export default function WorkstationPage() {
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Linux, macOS, Windows",
     description:
-      `A keyboard-driven terminal Git workstation with 18 specialized views, a full stash workflow, conflict resolution, bisect, and recursive submodule navigation, with chord navigation, AI-powered commits, one-keystroke PR creation, full-screen changelog generation, tactile hunk-level staging, a single-pane fallback for narrow terminals, and ${THEME_COUNT} customizable themes.`,
+      `A keyboard-driven terminal Git workstation with 18 specialized views, a full stash workflow, branch merge/reset/sync write operations, conflict resolution, bisect, and recursive submodule navigation, with chord navigation, AI-powered commits, one-keystroke PR creation, full-screen changelog generation, tactile hunk-level staging, a single-pane fallback for narrow terminals, and ${THEME_COUNT} customizable themes.`,
     url: `${siteConfig.url}/workstation`,
     offers: {
       "@type": "Offer",
@@ -172,6 +173,7 @@ export default function WorkstationPage() {
       "Per-file git-blame drill-down",
       "Submodule init / update / sync",
       "Rebase the current branch onto any ref",
+      "Branch merge, reset-to-ref, sync (pull+push), and push/force-push from the branches view",
       "Conflict resolution helper for merge / rebase / cherry-pick / revert",
       `${THEME_COUNT} built-in theme presets`,
       "NO_COLOR support",
