@@ -208,6 +208,9 @@ function CodeBlock({
           fontSize: "0.875rem",
           background: "hsl(var(--code-bg))",
         }}
+        codeTagProps={{
+          style: { background: "transparent" },
+        }}
         showLineNumbers={children.split("\n").length > 3}
       >
         {children}
