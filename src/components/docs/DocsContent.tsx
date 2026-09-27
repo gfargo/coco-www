@@ -206,7 +206,7 @@ function CodeBlock({
           margin: 0,
           borderRadius: 0,
           fontSize: "0.875rem",
-          background: "hsl(220 20% 10%)",
+          background: "hsl(var(--code-bg))",
         }}
         showLineNumbers={children.split("\n").length > 3}
       >
